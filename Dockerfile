@@ -1,14 +1,21 @@
+# Every instructions are layer, each layer will be cached that helps with Image building
+
+
+
 # Building on top of existing Image Node:14
 FROM node:14
 
 # All susbsequent cmd will be executed in this directory
 WORKDIR /app
 
-# Which files to copy into the container from root into /app 
-COPY . /app
+# Copy package.json first to take advantage of caching when we build the image to prevent re-installing all dependencies
+COPY package.json /app
 
 # Install all dependencies
 RUN npm install
+
+# Which files to copy into the container from root into /app 
+COPY . /app
 
 # Expose port 80 to local machine when this container is running
 EXPOSE 80
