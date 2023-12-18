@@ -8,21 +8,18 @@
 - Containers are independent instances of an Image
 
 ```mermaid
+    %%{init: {'theme': 'neutral'}}%%
 
-flowchart BT
-    A[Image
-        NodeJS App Code
-        NodeJS Environment
-    ] --> B(Instances)
-    B --> C{ContainerA
-        Running NodeJS App
-    }
-    B --> D{ContainerB
-        Running NodeJS App
-    }
-    B --> E{ContainerC
-        Running NodeJS App
-    }
+    graph BT;
+    A(Image: NodeJS App Code, NodeJS Environment);
+    B[Instances];
+    C[ContainerA: Running NodeJS App];
+    D[ContainerB: Running NodeJS App];
+    E[ContainerC: Running NodeJS App];
+    A --> B;
+    B --> C;
+    B --> D;
+    B --> E;
 ```
 
 - Use [prebuilt Image](https://hub.docker.com/_/node)
