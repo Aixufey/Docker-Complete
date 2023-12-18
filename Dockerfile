@@ -14,7 +14,7 @@ COPY package.json /app
 # Install all dependencies
 RUN npm install
 
-# Which files to copy into the container from root into /app 
+# Copy all files from current directory to /app directory in the container
 COPY . /app
 
 # Expose port 80 to local machine when this container is running
