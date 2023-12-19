@@ -7,6 +7,8 @@
     - [Why detach mode?](#why-detach-mode)
     - [Deleting](#deleting-container--image)
   - [Sharing Image](#sharing-image)
+- [Data & Volumes](#data--volumes)
+  - [Volumes to persist data](#volumes-to-persist-data)
 
 ---
 
@@ -45,6 +47,20 @@
 - Once an Image has been built it's isolated, which means any changes to source code will have no effect to the built Image.
 - Every instruction creates an layer, that will be cached. This can help with building performance, i.e. skip running `npm i` everytime we are building when we did not made any dependency changes.
 - To summarize, Dockerfile contains instructions (layers) to build an Image, once built it cannot be changed, read-only. Containers are wrapper layer around the Image, and contains the instructions to run the application - read-write.
+
+```mermaid
+%%{init: {'theme': 'dark'}}%%
+graph LR
+    subgraph "Container Layer - read-write"
+        subgraph "Image Layer - read-only"
+            A[FROM node:14]
+            B[WORKDIR /app]
+            C[COPY . .]
+            A --> B
+            B --> C
+        end
+    end
+```
 
 ---
 
@@ -88,3 +104,24 @@
 - **Always pull before run to get the latest version, docker will not fetch automatically**
 - Pull to local `docker pull aixufey/testing-repo:latest`, if repo is public anyone can pull.
 - Run `docker run -it --rm aixufey/testing-repo:latest`, run as normal with flags.
+
+---
+
+## Data & Volumes
+
+- Data in an Image is code and environment.
+- Data in a Container is temporary application data, stored in memory or temp files. This is the core idea of container which basically is just a read-write layer wrapping the Image. When container is killed, data is lost, even if spinning up a new container with the same image.
+- Data in Volume are persistent data, like Database. It means when container is shutdown, volume shall persist regardless.
+
+### Volumes to persist data
+
+- Volumes are folder path on local that can mount into containers.
+- This essentially means host can access environment files and vice versa.
+- Volumes need a name to persist `-v feedback:/app/feedback` will create a named Volume feedback in /app/feedback when running the image. This will persist even if container and image are removed.
+- This flag creates a named volume, however anonymous volume may be created as instruction in Dockerfile using `VOLUME ["volume-name"]`. But it will be recreated everytime a container spins up.
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+    graph LR;
+    A(/some-path-on-local) <---> B(/app/user-data);
+```
