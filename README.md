@@ -115,10 +115,19 @@ graph LR
 
 ### Volumes to persist data
 
+#### Anonymous & Named Volume
+
 - Volumes are folder path on local that can mount into containers.
 - This essentially means host can access environment files and vice versa.
 - Volumes need a name to persist `-v feedback:/app/feedback` will create a named Volume feedback in /app/feedback when running the image. This will persist even if container and image are removed.
 - This flag creates a named volume, however anonymous volume may be created as instruction in Dockerfile using `VOLUME ["volume-name"]`. But it will be recreated everytime a container spins up.
+
+#### Binding Volume
+
+- Essentially Binding creates a "shared folder" between host and the container, any changes to this directory/file are reflected on both host and the container. **The directory has to be absolute path mapped to the container along with an anonymous Volume to preserve node_modules being overwritten from host machine** This will cause error as host machine most likely won't have those node modules installed.
+- `docker run -p 3000:80 -d --rm --name feedback-app -v feedback:/app/feedback -v "C:\Users\userName\Desktop\Docker-Complete\src\DataVolume:/app" -v /app/node_modules feedback-node:volumes`
+- The first -v creates a named Volume feedback, second -v creates a binding between host folder source mapped to container /app,
+finally the third -v creates an anonymous Volume to preserve node_modules.
 
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
