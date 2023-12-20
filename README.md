@@ -9,6 +9,11 @@
   - [Sharing Image](#sharing-image)
 - [Data & Volumes](#data--volumes)
   - [Volumes to persist data](#volumes-to-persist-data)
+  - [Anonymous & Named Volume](#anonymous--named-volume)
+  - [Binding Volume](#binding-volume)
+  - [Protect Volume](#protect-the-binding-volume-with-read-only)
+  - [Nodemon watch](#nodejs-specific-nodemon)
+  - [Volume summarize](#volume-summarize)
 
 ---
 
@@ -47,6 +52,7 @@
 - Once an Image has been built it's isolated, which means any changes to source code will have no effect to the built Image.
 - Every instruction creates an layer, that will be cached. This can help with building performance, i.e. skip running `npm i` everytime we are building when we did not made any dependency changes.
 - To summarize, Dockerfile contains instructions (layers) to build an Image, once built it cannot be changed, read-only. Containers are wrapper layer around the Image, and contains the instructions to run the application - read-write.
+- `docker build -t feedback-node:volumes .` Build an image name feedback-node and tag it
 
 ```mermaid
 %%{init: {'theme': 'dark'}}%%
@@ -113,6 +119,12 @@ graph LR
 - Data in a Container is temporary application data, stored in memory or temp files. This is the core idea of container which basically is just a read-write layer wrapping the Image. When container is killed, data is lost, even if spinning up a new container with the same image.
 - Data in Volume are persistent data, like Database. It means when container is shutdown, volume shall persist regardless.
 
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+    graph LR;
+    A(/some-path-on-local) <---> B(/app/user-data);
+```
+
 ### Volumes to persist data
 
 #### Anonymous & Named Volume
@@ -125,21 +137,23 @@ graph LR
 #### Binding Volume
 
 - Essentially Binding creates a "shared folder" between host and the container, any changes to this directory/file are reflected on both host and the container. **The directory has to be absolute path mapped to the container along with an anonymous Volume to preserve node_modules being overwritten from host machine** This will cause error as host machine most likely won't have those node modules installed.
+
 - `docker run -p 3000:80 -d --rm --name feedback-app -v feedback:/app/feedback -v "C:\Users\userName\Desktop\Docker-Complete\src\DataVolume:/app" -v /app/node_modules feedback-node:volumes`
+
 - The first -v creates a named Volume feedback, second -v creates a binding between host folder source mapped to container /app,
 finally the third -v creates an anonymous Volume to preserve node_modules.
 
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-    graph LR;
-    A(/some-path-on-local) <---> B(/app/user-data);
-```
+#### Protect the binding volume with Read-Only
+
+- We can add `:ro` to make host folder read-only. But we want read-write to specific folder i.e. `temp` folder. Just add an anonymous volume to `temp` folder.
+- `docker run -p 3000:80 -d --rm --name feedback-app -v feedback:/app/feedback -v "C:\Users\userName\Desktop\Docker-Complete\src\DataVolume:/app:ro" -v /app/node_modules -v /app/temp feedback-node:volumes`
 
 #### NodeJS specific Nodemon
 
 - Nodemon is a dev tool to auto restart node when file changes in directory are detected.
 - In Dockerfile `CMD ["npm", "start"]`
 - In `package.json` we can add these: On windows using `-L` for legacy watch mode is necessarily.
+- For better performance on Windows using WSL2 Linux distro, see attached PDF.
 
 ```json
 "scripts": {
@@ -149,3 +163,16 @@ finally the third -v creates an anonymous Volume to preserve node_modules.
     "nodemon": "^2.0.4"
   }
 ```
+
+#### Volume summarize
+
+|_Volume Type_|_Description_|
+|:-:|:-:|
+|_Anonymous_|_A volume that is not named and is created when a container is started. The volume is deleted when the container is stopped._|
+|_Named_|_A volume that is named and is created when a container is started. The volume is not deleted when the container is stopped._|
+|_Binding_|_A binding is a way to mount a volume from the host machine into a container. The volume is not deleted when the container is stopped._|
+
+- Anonymous & Named are managed by Docker
+- Binding is managed by host
+
+---
