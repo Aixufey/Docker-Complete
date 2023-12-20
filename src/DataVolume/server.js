@@ -45,4 +45,5 @@ app.post('/create', async (req, res) => {
   });
 });
 
-app.listen(80);
+// Process provided by Node to use an environment file
+app.listen(process.env.PORT);
