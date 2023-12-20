@@ -16,6 +16,7 @@
   - [Volume summarize](#volume-summarize)
 - [Environment file](#runtime-environment-file)
 - [Argument](#build-time-arg)
+- [Networking](#networking)
 
 ---
 
@@ -196,3 +197,10 @@ finally the third -v creates an anonymous Volume to preserve node_modules.
 - `docker build -t feedback-node:arg --build-arg DEFAULT_PORT=1234 .` We can pass port `1234` at build time
 
 - If the ARG is used, the image port is set to `1234` at build time so we have to expose the port to `1234` when running `docker run -p 3000:1234`
+
+---
+
+### Networking
+
+- By default container can communicate with web API's. With that said, container may expose a port to the host and have a web API open on an exposed port for **HTTP requests**.
+- Container may fetch request from API, communicate with HOST machine or another Container.
