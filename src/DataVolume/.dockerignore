@@ -1,0 +1,2 @@
+# If node modules exist on Host, don't copy it - it will overwrite layer instructions
+node_modules
