@@ -14,6 +14,8 @@
   - [Protect Volume](#protect-the-binding-volume-with-read-only)
   - [Nodemon watch](#nodejs-specific-nodemon)
   - [Volume summarize](#volume-summarize)
+- [Environment file](#runtime-environment-file)
+- [Argument](#build-time-arg)
 
 ---
 
@@ -176,3 +178,21 @@ finally the third -v creates an anonymous Volume to preserve node_modules.
 - Binding is managed by host
 
 ---
+
+### Runtime Environment file
+
+- Secret keys and private files can be stored in environment file.
+
+- Environment file can be created  with `.env` and set a port to default `PORT=80`
+
+- When running an image we can dynamic adjust the port using this file.
+
+- To run with env file, `docker run -p 3000:80 --env-file ./.env` or `docker run -p 3000:80 -e PORT=80`
+
+### Build time ARG
+
+- Using `ARG DEFAULT_PORT=80` in Dockerfile we can pass port at building time
+
+- `docker build -t feedback-node:arg --build-arg DEFAULT_PORT=1234 .` We can pass port `1234` at build time
+
+- If the ARG is used, the image port is set to `1234` at build time so we have to expose the port to `1234` when running `docker run -p 3000:1234`
