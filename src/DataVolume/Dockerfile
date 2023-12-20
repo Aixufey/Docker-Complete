@@ -13,4 +13,4 @@ EXPOSE 80
 # This creats an anonymous volume managed by Docker, will not be persisted if container is shutdown
 # VOLUME [ "/app/feedback" ] 
 
-CMD ["node", "server.js"]
+CMD ["npm", "start"]

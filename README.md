@@ -134,3 +134,18 @@ finally the third -v creates an anonymous Volume to preserve node_modules.
     graph LR;
     A(/some-path-on-local) <---> B(/app/user-data);
 ```
+
+#### NodeJS specific Nodemon
+
+- Nodemon is a dev tool to auto restart node when file changes in directory are detected.
+- In Dockerfile `CMD ["npm", "start"]`
+- In `package.json` we can add these: On windows using `-L` for legacy watch mode is necessarily.
+
+```json
+"scripts": {
+    "start": "nodemon -L server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+```
