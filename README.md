@@ -16,6 +16,7 @@
   - [Volume summarize](#volume-summarize)
 - [Environment file](#runtime-environment-file)
 - [Argument](#build-time-arg)
+- [Networking](#networking)
 
 ---
 
@@ -196,3 +197,61 @@ finally the third -v creates an anonymous Volume to preserve node_modules.
 - `docker build -t feedback-node:arg --build-arg DEFAULT_PORT=1234 .` We can pass port `1234` at build time
 
 - If the ARG is used, the image port is set to `1234` at build time so we have to expose the port to `1234` when running `docker run -p 3000:1234`
+
+---
+
+### Networking
+
+- Container may fetch request from API, communicate with HOST machine or another Container.
+
+#### Web API
+
+- By default container can communicate with web API's. With that said, container may expose a port to the host and have a web API open on an exposed port for **HTTP requests**.
+
+#### Host Machine
+
+- For host communication use domain `host.docker.internal` this resolves localhost IP address for container, as in `host.docker.interal:3000`...
+
+#### Container Networks
+
+- Every container should do one thing, for instance DB should be a standalone container. I.e. we can spin up a mongodb container with mongo image `docker run -d --name mongodb mongo`. Then we can get the containerized mongodb's IP by inspecting `docker inspect mongodb`. This IP is used to communicate with the mongodb container.
+
+#### Creating a Network for Containers
+
+- `docker network create favorites-net` and we can list our network `docker network ls`
+- For containers to communicate with each other on the same network, we use the container name as domain, i.e. `mongodb:27017` for mongodb.
+
+```mermaid
+%%{init: {'theme': 'dark'}}%%
+    graph
+    subgraph "Network"
+        A[Container 1]
+        B[Container 2]
+        C[Container 3]
+        A --- B --- C
+    end
+```
+
+#### Summary
+
+- The core concept is creating a network for containers to communicate with each other. By default containers are not connected. Suppose a container you have some logic fetching web API exposed at port 3000, this by default can communicate over http. Now you want to store some data into a containerized database. For app to communicate with db, we either inspect the IP or create a network then use db container as domain.
+
+```mermaid
+%%{init: {'theme': 'dark'}}%%
+    graph
+    subgraph "favorites-net"
+        A[Container - favorites
+          Fetching web API..
+          localhost:3000:3000
+        ]
+        B[Container - mongodb
+          mongodb://mongodb:27017
+        ]
+        A --- B
+    end 
+```
+
+- Example spinning up two containers on the same network:
+- `docker run -d --rm -p 3000:3000 --name favorites --network favorites-net favorites-node:latest`
+- `docker run -d --name mongodb --network favorites-net mongo`
+![network](./src/Networking/network.png)
