@@ -5,15 +5,25 @@
 > Basic React app making CRUD operations using endpoints from containerized backend running mongodb.
 
 - Making a Dockerfile to containerize React app
+- React is served in browser so the domain is localhost
+- Build the React `docker build -t goals-react .`
+- Run React `docker run --name goals-frontend --rm -it -p 3000:3000 goals-react`
 
 ---
 
 ## Backend
 
-> Backend with express running a mongodb that has CRUD endpoints. The networking is container-container, where the backend domain is `mongodb://localhost:27017/...`
+> Backend with express as REST API that communicates with another container mongoDB. The networking is container <---> container, where the backend domain is `mongodb://mongodb:27017/...`
+
+- Build Backend `docker build -t goals-node .`
+- Run Backend RESTAPI `docker run --name goals-backend --rm -d --network goals-net -p 80:80 goals-node`
+
+- Mongodb and backend are on the same network, but how can frontend communicate with backend if not on the same network? We exposed port 80 for HTTP inside backend image
+
+## Mongo
 
 - Mongodb's default port is `27017`
-- Install mongodb image `docker run --name mongodb --rm -d -p 27017:27017 mongo`
+- Install mongodb image on the same container network `docker run --name mongodb --rm -d --network goals-net mongo`
 
 ```mermaid
 %%{init: {'theme': 'dark'}}%%
