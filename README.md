@@ -240,13 +240,8 @@ finally the third -v creates an anonymous Volume to preserve node_modules.
 %%{init: {'theme': 'dark'}}%%
     graph
     subgraph "favorites-net"
-        A[Container - favorites
-          Fetching web API..
-          localhost:3000:3000
-        ]
-        B[Container - mongodb
-          mongodb://mongodb:27017
-        ]
+        A[Container - favorites Fetching web API..localhost:3000:3000]
+        B[Container - MongoDB mongodb://mongodb:27017]
         A --- B
     end 
 ```
