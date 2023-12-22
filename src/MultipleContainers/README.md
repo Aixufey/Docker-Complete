@@ -23,7 +23,8 @@
 ## Mongo
 
 - Mongodb's default port is `27017`
-- Install mongodb image on the same container network `docker run --name mongodb --rm -d --network goals-net mongo`
+- Initiate the db with named volume to persist data.
+- Install mongodb image on the same container network `docker run --name mongodb -v data:/data/db --rm -d --network goals-net mongo`
 
 ```mermaid
 %%{init: {'theme': 'dark'}}%%
