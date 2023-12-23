@@ -1,7 +1,7 @@
 import React from 'react';
 
-import './CourseGoals.css';
 import Card from '../UI/Card';
+import './CourseGoals.css';
 import GoalItem from './GoalItem';
 
 function CourseGoals(props) {

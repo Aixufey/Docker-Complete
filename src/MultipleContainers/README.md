@@ -7,7 +7,11 @@
 - Making a Dockerfile to containerize React app
 - React is served in browser so the domain is localhost
 - Build the React `docker build -t goals-react .`
-- Run React `docker run --name goals-frontend --rm -it -p 3000:3000 goals-react`
+- Run React `docker run --name goals-frontend -e WATCHPACK_POLLING=true --rm -it -p 3000:3000 goals-react`
+
+- **For live update run**
+  - if React 5 > : `-e WATCHPACK_POLLING=true`
+  - else React 4.x.x > `-e CHOKIDAR_POLLING=true`
 
 ---
 

@@ -1,1 +1,7 @@
+# Ignoring host dependencies, should not copy host to container as we already running npm install during build
 node_modules
+
+.git
+
+# Ignoring docker itself
+Dockerfile
