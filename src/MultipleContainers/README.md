@@ -26,6 +26,8 @@
 - Initiate the db with named volume to persist data.
 - Install mongodb image on the same container network `docker run --name mongodb -v data:/data/db --rm -d --network goals-net mongo`
 
+- To run with authentication: `docker run --name mongodb -e MONGO_INITDB_ROOT_USERNAME=sparrow -e MONGO_INITDB_ROOT_PASSWORD=123123 -v data:/data/db --rm -d --network goals-net mongo` The root user is `sparrow` and pass `123123` is already configured in backend when we connected to mongodb
+
 ```mermaid
 %%{init: {'theme': 'dark'}}%%
     graph
