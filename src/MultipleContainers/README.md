@@ -32,15 +32,9 @@
 %%{init: {'theme': 'dark'}}%%
     graph
     subgraph "Three building blocks"
-        A[Database
-        MongoDB
-        ]
-        B[Backend
-        NodeJS RESTAPI
-        ]
-        C[Frontend
-        React SPA
-        ]
+        A[Database MongoDB]
+        B[Backend NodeJS RESTAPI]
+        C[Frontend React SPA]
         A <---> B <---> C
     end 
 ```
