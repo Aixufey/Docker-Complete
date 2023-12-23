@@ -20,6 +20,13 @@
 
 - Mongodb and backend are on the same network, but how can frontend communicate with backend if not on the same network? We exposed port 80 for HTTP inside backend image
 
+- Persisting data on Backend `docker run --name goals-backend -v logs:/app/logs -v "C:\Users\sparrow\Desktop\Docker-Complete\src\MultipleContainers\backend:/app" -v /app/node_modules --rm -d --network goals-net -p 80:80 goals-node`
+
+    1. `-v logs:/app/logs`: This creates a Docker volume named logs on your host machine and mounts it to the /app/logs directory in your Docker container. Any files written to /app/logs inside the container will be stored in the logs volume on the host. This is typically done for log files that you want to persist and access even if the container is removed.
+    2. `-v "C:\Users\sparrow\Desktop\Docker-Complete\src\MultipleContainers\backend:/app":` This mounts the local directory C:\Users\sparrow\Desktop\Docker-Complete\src\MultipleContainers\backend from your host machine to the /app directory in the Docker container. This is typically done during development so that changes to the local files are immediately reflected in the container.
+    Remember to add `-L` flag in package.json when starting the nodemon script for legacy watch if not developing in Linux environment or using WSL2.
+    3. `-v /app/node_modules`: This is an anonymous volume for the /app/node_modules directory. The purpose of this volume is to prevent the node_modules directory from your host machine (from the previous volume mount) from overwriting the node_modules directory inside the Docker container. This is important because the dependencies in node_modules might be compiled differently for your host machine and the Docker container, and you don't want the host's version to overwrite the container's version.
+
 ## Mongo
 
 - Mongodb's default port is `27017`
