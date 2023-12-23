@@ -83,8 +83,13 @@ app.delete('/goals/:id', async (req, res) => {
   }
 });
 
+/**
+ * @description Connecting to MongoDB with credentials on container network 'mongodb'
+ * https://www.mongodb.com/docs/drivers/kotlin/coroutine/v4.11/fundamentals/connection/connect/
+ * 
+ */
 mongoose.connect(
-  'mongodb://mongodb:27017/course-goals',
+  'mongodb://sparrow:123123@mongodb:27017/course-goals?authSource=admin',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
