@@ -1,0 +1,60 @@
+# https://docs.docker.com/compose/compose-file/compose-versioning/
+# Docker engine 20 uses compose file version 3.8
+version: "3.8"
+services:
+    # These are the container names we use for reference
+    mongodb:
+        image: "mongo"
+        volumes:
+            - data:/data/db
+        # environment:
+        #     # Object use "- K:V" pair, single value use "="
+        #     # MONGO_INITDB_ROOT_USERNAME: sparrow
+        #     # MONGO_INITDB_ROOT_PASSWORD: 123123
+        #     - MONGO_INITDB_ROOT_USERNAME=sparrow
+        #     - MONGO_INITDB_ROOT_PASSWORD=123123
+
+        # Using env file
+        env_file:
+            - ./env/mongo.env
+
+        # networks: Docker Compose automatically creates a network for all containers in a compose file
+        # goals-net, we can use other network as well
+    backend:
+        # build:
+        #   context: ./backend
+        #   dockerfile: Dockerfile
+        #   args:
+        #     - some build args
+        build: ./backend
+
+        # From host port to container port
+        ports:
+            - "80:80"
+        volumes:
+            - logs:/app/logs
+            - ./backend:/app # For Bind mount, we can use relative path.
+            - /app/node_modules
+        env_file:
+            - ./env/backend.env
+
+        # Dependency
+        depends_on:
+            - mongodb
+    frontend:
+        build: ./frontend
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./frontend/src:/app/src
+
+        # Active terminal for -it flag
+        stdin_open: true
+        tty: true
+        depends_on:
+            - backend
+# ONLY Named volumes need to be specified, if using same name then container will share the same volume
+# https://docs.docker.com/get-started/08_using_compose/#use-docker-compose
+volumes:
+    data:
+    logs:
