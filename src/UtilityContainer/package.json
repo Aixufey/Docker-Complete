@@ -1,0 +1,14 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "- The purpose is to spin up a container without needing to install any packages on host, but everything will be mirrored onto host via bind mount.\r - Creating a lightweight Dockerfile using node image.\r - Building the image `docker build -t node-util .`\r - Run the container and executing npm init inside container `docker run -it -v \"C:\\Users\\sparrow\\Desktop\\Docker-Complete\\src\\UtilityContainer:/app\" node-util npm init` This will be mirrored to host as well.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
