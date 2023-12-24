@@ -41,8 +41,18 @@ services:
         # Dependency
         depends_on:
             - mongodb
-    #frontend:
+    frontend:
+        build: ./frontend
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./frontend/src:/app/src
 
+        # Active terminal for -it flag
+        stdin_open: true
+        tty: true
+        depends_on:
+            - backend
 # ONLY Named volumes need to be specified, if using same name then container will share the same volume
 # https://docs.docker.com/get-started/08_using_compose/#use-docker-compose
 volumes:

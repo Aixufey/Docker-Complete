@@ -56,7 +56,10 @@
 
 ## Docker Compose
 
+- **Containers are auto removed when compose is down**.
+
 - Automation of building, running and stopping containers.
+- To rebuild `docker-compose up --build` if code change
 - Start with `docker-compose up -d`
 - Stop with `docker-compose stop X`
 - Remove with `docker-compose down`, use `-v` to remove volumes.
