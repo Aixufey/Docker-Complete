@@ -7,3 +7,10 @@
 - However much safer and way using ENTRYPOINT in Dockerfile and restrict to some arguments
 - We can pass npm inside ENTRYPOINT, and just pass `init` or `install` instead `docker run -it -v "C:\Users\sparrow\Desktop\Docker-Complete\src\UtilityContainer:/app" node-util init`
 - This means we could also install `express --save` and other npm packages.
+
+---
+
+## Using Docker-compose for management
+
+- The command `docker-compose run` will target specific service.
+- `docker-compose run --rm npm init` for passing args into ENTRYPOINT in Dockerfile
