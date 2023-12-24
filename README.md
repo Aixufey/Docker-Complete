@@ -17,6 +17,7 @@
 - [Environment file](#runtime-environment-file)
 - [Argument](#build-time-arg)
 - [Networking](#networking)
+- [Docker Compose](#docker-compose)
 
 ---
 
@@ -250,3 +251,10 @@ finally the third -v creates an anonymous Volume to preserve node_modules.
 - `docker run -d --rm -p 3000:3000 --name favorites --network favorites-net favorites-node:latest`
 - `docker run -d --name mongodb --network favorites-net mongo`
 ![network](./src/Networking/network.png)
+
+---
+
+## Docker Compose
+
+- Orchestrating multiple containers on the same host.
+- A configuration setup with .yml file for automation.

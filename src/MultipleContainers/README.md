@@ -51,3 +51,12 @@
         A <---> B <---> C
     end 
 ```
+
+---
+
+## Docker Compose
+
+- Automation of building, running and stopping containers.
+- Start with `docker-compose up -d`
+- Stop with `docker-compose stop X`
+- Remove with `docker-compose down`, use `-v` to remove volumes.
