@@ -8,7 +8,17 @@ services:
             - "8000:80"
         volumes:
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    # php:
+    php:
+        # Build this interpreter and bind the volume to host so we can work on the code.
+        build:
+            context: ./docker
+            dockerfile: php.dockerfile
+            volumes:
+                - ./src:/var/www/html:delegated # Batching to improve performance as we don't need to sync the files.
+
+            # https://github.com/docker-library/php/blob/50c8b1ceaefdaebc4df51322f1e0dc149a1cda15/8.3-rc/alpine3.19/fpm/Dockerfile
+            # This image exposes port 9000, and we can map nginx to it inside nginx.conf.
+            
     # mysql:
     # artisan:
     # composer:

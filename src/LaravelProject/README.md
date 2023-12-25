@@ -5,9 +5,9 @@
 %%{init: {'theme': 'dark'}}%%
     graph
     subgraph "Laravel Dockerized"
-    A[HOST SRC CODE]
-    B[PHP interpreter]
-    C[Nginx Web server]
+    A[HOST SRC CODE<br>localhost:8000]
+    B[PHP interpreter<br>Port:9000]
+    C[Nginx Web server<br>Port:80]
     D[MySQL]
         subgraph "Utility"
         E[Composer]
@@ -23,6 +23,7 @@
 ```
 
 - Host contains Laravel PHP src, exposed for PHP to interpret our Laravel code to generate response for request. The web server takes the incoming HTTP request, and passes them to PHP interpreter, and then sends the responses back to the client.
+- Nginx forward requests for PHP files to a FASTCGI server listening on port `9000` of a service PHP. PHP will interpret and return the response back to Nginx, which then sends the response to the client.
 
 ## Utilities
 
