@@ -4,7 +4,11 @@ services:
     # https://hub.docker.com/_/nginx/
     # Incoming request from client(host src) hits server first, then server forwards this to php container so we need a bind volume to share the code.
     server:
-        image: "nginx:stable-alpine"
+        #image: "nginx:stable-alpine"
+        # Deployment: Using own docker file. The context is at same level so we use "."
+        build:
+            context: .
+            dockerfile: docker/nginx.dockerfile
         ports:
             - "8000:80"
         volumes:
@@ -16,8 +20,8 @@ services:
     php:
         # Build this interpreter and bind the volume to host so we can work on the code.
         build:
-            context: ./docker
-            dockerfile: php.dockerfile
+            context: .
+            dockerfile: docker/php.dockerfile
         # Due to permission docker issues, we have to bind storage folder to host.
         volumes:
             - ./src:/var/www/html:delegated # Batching to improve performance as we don't need to sync the files.
@@ -45,8 +49,8 @@ services:
     # php does not have entrypoint in dockerfile, so we use entrypoint here.
     artisan:
         build:
-            context: ./docker
-            dockerfile: php.dockerfile
+            context: .
+            dockerfile: docker/php.dockerfile
         volumes:
             - ./src:/var/www/html
         entrypoint: ["php", "/var/www/html/artisan"]

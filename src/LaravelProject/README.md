@@ -39,3 +39,5 @@
 
 - Running the app (server, php, mysql) `docker-compose up -d server php mysql`
 - Tweaking the run, in compose for server we can add `depends_on` php, mysql, and then run `docker-compose up -d --build server`. This force docker-compose to check for latest change and just spin up server that will invoke php + mysql.
+
+## 
