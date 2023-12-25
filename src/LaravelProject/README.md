@@ -30,3 +30,7 @@
 - **Composer** is PHP's "npm". I.e. creating Laravel app using Composer.
 - **Laravel Artisan** Laravel tool for db migrations.
 - **npm** Laravel use npm for some front end logic.
+
+## Installing
+
+- Running single service from docker-compose to install the app using `Composer` container with `docker-compose run --rm composer create-project --prefer-dist laravel/laravel .`. The `composer` is the name of the service, and `.` refers to container dir `"./src:/var/www/html"` which will be mirrored into host `./src` after installation.

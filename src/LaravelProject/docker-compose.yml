@@ -13,11 +13,11 @@ services:
         build:
             context: ./docker
             dockerfile: php.dockerfile
-            volumes:
-                - ./src:/var/www/html:delegated # Batching to improve performance as we don't need to sync the files.
+        volumes:
+            - ./src:/var/www/html:delegated # Batching to improve performance as we don't need to sync the files.
 
-            # https://github.com/docker-library/php/blob/50c8b1ceaefdaebc4df51322f1e0dc149a1cda15/8.3-rc/alpine3.19/fpm/Dockerfile
-            # This image exposes port 9000, and we can map nginx to it inside nginx.conf.
+        # https://github.com/docker-library/php/blob/50c8b1ceaefdaebc4df51322f1e0dc149a1cda15/8.3-rc/alpine3.19/fpm/Dockerfile
+        # This image exposes port 9000, and we can map nginx to it inside nginx.conf.
     mysql:
         image: mysql:5.7
         env_file:
@@ -28,6 +28,6 @@ services:
             dockerfile: composer.dockerfile
         # Reflecting the volume from composer container to host. When app is installed in container, we will get the app in src folder in host.
         volumes:
-            - ./src:/var/www/html
+            - "./src:/var/www/html"
     # artisan:
     # npm:
