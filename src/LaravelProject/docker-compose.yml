@@ -18,8 +18,10 @@ services:
 
             # https://github.com/docker-library/php/blob/50c8b1ceaefdaebc4df51322f1e0dc149a1cda15/8.3-rc/alpine3.19/fpm/Dockerfile
             # This image exposes port 9000, and we can map nginx to it inside nginx.conf.
-            
-    # mysql:
+    mysql:
+        image: mysql:5.7
+        env_file:
+            - ./env/mysql.env
     # artisan:
     # composer:
     # npm:
