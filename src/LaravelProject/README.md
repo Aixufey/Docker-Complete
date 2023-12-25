@@ -34,3 +34,8 @@
 ## Installing
 
 - Running single service from docker-compose to install the app using `Composer` container with `docker-compose run --rm composer create-project --prefer-dist laravel/laravel .`. The `composer` is the name of the service, and `.` refers to container dir `"./src:/var/www/html"` which will be mirrored into host `./src` after installation.
+
+## Running
+
+- Running the app (server, php, mysql) `docker-compose up -d server php mysql`
+- Tweaking the run, in compose for server we can add `depends_on` php, mysql, and then run `docker-compose up -d --build server`. This force docker-compose to check for latest change and just spin up server that will invoke php + mysql.
