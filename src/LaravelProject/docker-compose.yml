@@ -22,6 +22,12 @@ services:
         image: mysql:5.7
         env_file:
             - ./env/mysql.env
+    composer:
+        build:
+            context: ./docker
+            dockerfile: composer.dockerfile
+        # Reflecting the volume from composer container to host. When app is installed in container, we will get the app in src folder in host.
+        volumes:
+            - ./src:/var/www/html
     # artisan:
-    # composer:
     # npm:
