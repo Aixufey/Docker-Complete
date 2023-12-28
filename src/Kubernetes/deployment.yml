@@ -12,9 +12,18 @@ spec:
     replicas: 3
     # Tagged pod will be observed
     selector:
-        matchLabels:
-            app: second-app
-            tier: backend
+        # matchLabels:
+        #     app: second-app
+        #     tier: backend
+
+        # Using regex - https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/label-selector/#LabelSelector
+        # operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+        matchExpressions:
+            - {
+                  key: app,
+                  operator: In,
+                  values: [first-app, second-app, whats-app],
+              }
     # Pod
     template:
         # kind: Pod - Deployment is always Pod kind
