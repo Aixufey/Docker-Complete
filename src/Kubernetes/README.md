@@ -31,9 +31,10 @@
 
 - Kubernetes works with Objects - Pods, Deployments, Services, Volume
   - **Pod**: Run one or multiple containers. A pod is just a wrapper for container that is managed by Kubernetes.
-  - **Deployment**: This key object is where we define numbers of pods and containers it should create and manage for you. Kubernetes will place pods on worker nodes - creating these pods - starting the containers. We don't have to manually pick remote hosts
+  - **Deployment**: This key object is where we define numbers of pods and containers it should create and manage for you. Kubernetes will place pods on worker nodes - creating these pods - starting the containers. We don't have to manually pick remote hosts. Deployment will restart the pod if crashes.
     - can start, stop and rollback
     - Dynamic scaling for pods, i.e. high inc. traffic = creating more instances of pods, less traffic = remove unnecessary pods.
+      - This ensures high availability and balancing the traffic spikes
   - **Service**: This object group Pods together with a shared IP for communication.
     - internal -> `--type=ClusterIP` only reachable inside cluster.
     - external --> `--type=NodePort` expose IP of the running worker node.
@@ -67,7 +68,8 @@
     - Check pods status `kubectl get pods`
 4. Expose IP `kubectl expose deployment first-kub-app --type=LoadBalancer --port=8080`
     - Get the IP from minikube `minikube service first-kub-app`
-5. Get the dashboard `minikube dashboard` for the cluster meta.
+5. To manual create more instances `kubectl scale deployment/kub-first-kub-app --replicas=3` 3 more pods are created.
+6. Get the dashboard `minikube dashboard` for the cluster meta.
 
 ---
 
