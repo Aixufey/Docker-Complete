@@ -63,13 +63,19 @@
 
 1. Build the Image `docker build -t kub-example .`
 2. Create the repo in Dockerhub, retag with repo e.g `docker tag kub-example sparrow/kub-example` and push to repo `docker push sparrow/kub-example`
-3. Then use kubectl to create the `Deployment` object `kubectl create deployment first-kub-app --image=sparrow/kub-example`.
+3. Then use kubectl to create the `Deployment` object `kubectl create deployment first-kub-app --image=sparrow/kub-example`
     - Check deployment status `kubectl get deployment`
     - Check pods status `kubectl get pods`
 4. Expose IP `kubectl expose deployment first-kub-app --type=LoadBalancer --port=8080`
+    - Check services status `kubectl get services`
     - Get the IP from minikube `minikube service first-kub-app`
 5. To manual create more instances `kubectl scale deployment/kub-first-kub-app --replicas=3` 3 more pods are created.
-6. Get the dashboard `minikube dashboard` for the cluster meta.
+6. To update source code:
+    - build new version tag `docker build -t first-kub-app:v2 .`
+    - push to registry `docker push sparrow/first-kub-app:v2`
+    - set current cluster image to the new tag `kubectl set image deployment/kub-first-app kub-first-app=sparrow/kub-fist-app:v2`
+    - A new tag has to be provided
+7. Get the dashboard `minikube dashboard` for the cluster meta.
 
 ---
 
