@@ -73,9 +73,12 @@
 6. To update source code:
     - build new version tag `docker build -t first-kub-app:v2 .`
     - push to registry `docker push sparrow/first-kub-app:v2`
-    - set current cluster image to the new tag `kubectl set image deployment/kub-first-app kub-first-app=sparrow/kub-fist-app:v2`
-    - A new tag has to be provided
-7. Get the dashboard `minikube dashboard` for the cluster meta.
+    - set current cluster image to the new tag `kubectl set image deployment/kub-first-app kub-first-app=sparrow/kub-first-app:v2`
+    - Check status `kubectl rollout status deployment/kub-example`
+7. To rollback latest change `kubectl rollout undo deployment/kub-first-app:v2`
+    - rollout history to specific image `kubectl rollout history`, using flag `--revision=NUMBER`
+    - Rollout to revision 1, `kubectl rollout undo deployment/first-kub-app --to-revision=1`
+8. Get the dashboard `minikube dashboard` for the cluster meta.
 
 ---
 
