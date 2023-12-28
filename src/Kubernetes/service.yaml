@@ -1,0 +1,25 @@
+# https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/
+
+# Creating service obj imperative way
+# kubectl expose deployment kub-example --type=LoadBalancer --port=8080
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: kub-example-backend
+spec:
+    # Serve the Pods observed by Deployment obj.
+    selector:
+        app: second-app
+        tier: backend
+    # type: ClusterIP or NodePorts
+    type: LoadBalancer
+    ports:
+        - protocol: "TCP"
+          # HTTP
+          port: 80
+          # Container port listening on 8080
+          targetPort: 8080
+        # - protocol: 'TCP'
+        #   port: 443
+        #   targetPort: 443

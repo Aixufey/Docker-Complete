@@ -1,0 +1,32 @@
+# Declarative file for Kubernetes
+# https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/
+
+# Creating deployment obj imperative way
+# kubectl create deployment kub-example --image=aixufey/kub-example
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: kub-example-second
+spec:
+    replicas: 3
+    # Tagged pod will be observed
+    selector:
+        matchLabels:
+            app: second-app
+            tier: backend
+    # Pod
+    template:
+        # kind: Pod - Deployment is always Pod kind
+        metadata:
+            # Pod label to be watched by Deployment
+            labels:
+                # K/V name can be anything
+                app: second-app
+                tier: backend
+        spec:
+            containers:
+                - name: second-node
+                  image: aixufey/kub-example
+                # - name:
+                #       image: ... ...
