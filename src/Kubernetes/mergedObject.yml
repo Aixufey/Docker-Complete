@@ -1,0 +1,34 @@
+# Service created first and then selector will be like "depends_on" , if new pods are created, these are covered as well.
+apiVersion: v1
+kind: Service
+metadata:
+    name: kub-example-backend
+spec:
+    selector:
+        app: second-app
+        tier: backend
+    type: LoadBalancer
+    ports:
+        - protocol: "TCP"
+          port: 80
+          targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: kub-example-second
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: second-app
+            tier: backend
+    template:
+        metadata:
+            labels:
+                app: second-app
+                tier: backend
+        spec:
+            containers:
+                - name: second-node
+                  image: aixufey/kub-example
