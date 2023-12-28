@@ -34,6 +34,18 @@
   - **Deployment**: This key object is where we define numbers of pods and containers it should create and manage for you. Kubernetes will place pods on worker nodes - creating these pods - starting the containers. We don't have to manually pick remote hosts
     - can start, stop and rollback
     - Dynamic scaling for pods, i.e. high inc. traffic = creating more instances of pods, less traffic = remove unnecessary pods.
+  - **Service**: This object group Pods together with a shared IP for communication.
+    - internal -> `--type=ClusterIP` only reachable inside cluster.
+    - external --> `--type=NodePort` expose IP of the running worker node.
+    - external --> `--type=LoadBalancer` evenly distribute inc. traffic, works if Cloud supports it.
+    - Port --> `--port=YourAppPort`
+
+| NAME        | TYPE       | CLUSTER-IP   | EXTERNAL-IP | PORT(S)        | AGE |
+|-------------|------------|--------------|-------------|----------------|-----|
+| kub-example | NodePort   | 10.96.240.54 | <none>      | 8080:31635/TCP | 6s  |
+| kubernetes  | ClusterIP  | 10.96.0.1    | <none>      | 443/TCP        | 44h |
+
+- EXTERNAL-IP would be available if provided by a cloud provider.
 - We don't create pods, but deployment object as instructions so Kubernetes will manage this for us.
 
 ---
@@ -53,7 +65,9 @@
 3. Then use kubectl to create the `Deployment` object `kubectl create deployment first-kub-app --image=sparrow/kub-example`.
     - Check deployment status `kubectl get deployment`
     - Check pods status `kubectl get pods`
-4. Get the dashboard `minikube dashboard` for the cluster meta.
+4. Expose IP `kubectl expose deployment first-kub-app --type=LoadBalancer --port=8080`
+    - Get the IP from minikube `minikube service first-kub-app`
+5. Get the dashboard `minikube dashboard` for the cluster meta.
 
 ---
 
