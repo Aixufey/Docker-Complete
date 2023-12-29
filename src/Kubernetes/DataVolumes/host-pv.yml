@@ -8,6 +8,7 @@ spec:
     storage: 1Gi
   # https://www.computerweekly.com/feature/Storage-pros-and-cons-Block-vs-file-vs-object-storage
   volumeMode: Filesystem
+  storageClassName: standard # `kubectl get sc` - a config for PV provisioning 
   accessModes:
     - ReadWriteOnce # Only claimed by a single Node
     # - ReadOnlyMany  # Read only by multiple Nodes
@@ -17,3 +18,19 @@ spec:
   hostPath:
     path: /data
     type: DirectoryOrCreate
+---
+# Host Node claiming this PV - Provider to Pods
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: host-pvc
+spec:
+  # Claim the PV by name
+  volumeName: host-pv
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  # Requesting max storage
+  resources:
+    requests:
+      storage: 1Gi

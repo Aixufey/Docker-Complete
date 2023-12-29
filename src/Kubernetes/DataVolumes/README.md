@@ -25,9 +25,10 @@
 - `hostPath` creates a volume from host node's filesystem into your Pods.
   - Multiple containers shares the resource, if running more replicas and some crashes, the data is still available.
 
-## Persistent Volumes
+## Persistent Volume
 
 - Persistent Volumes are independent entities from Pod and Node that are configured to work with larger scale. Each Node use persistent volume claim to request access to these PV's.
+- We can get the PV with `kubectl get pv` and check the claims with `kubectl get pvc`
 
 ```mermaid
     graph
@@ -47,3 +48,10 @@
     F --> G
     end
 ```
+
+## Summary
+
+Both volume persist data, just different behavior.
+
+- Volume: closely tied to Pod lifecycle, e.g. if using emptydir when container crashes, it start as empty. Configured at Pod level.
+- Persistent Volume: Standalone resource in the Cluster, configure once, pods just claim this resource.
