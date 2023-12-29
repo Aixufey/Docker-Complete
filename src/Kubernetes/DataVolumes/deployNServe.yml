@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: story-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: story
@@ -22,7 +22,12 @@ spec:
               name: story-volume
       volumes:
         - name: story-volume
-          emptyDir: {} # Creates an empty dir when Pod starts - Containers can access, deleted when Pod is removed.
+          # emptyDir: {} # Creates an empty dir when Pod starts - Containers can access, deleted when Pod is removed.
+
+          # hostPath shares a dir from host into Pods, similar to bind mount
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate # Use /data if exist or create
 ---
 apiVersion: v1
 kind: Service
