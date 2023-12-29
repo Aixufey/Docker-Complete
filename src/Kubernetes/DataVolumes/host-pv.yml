@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: host-pv
+spec:
+  # Total storage for this PV is 1GB - the Pods can "claim" how much storage they need later.
+  capacity:
+    storage: 1Gi
+  # https://www.computerweekly.com/feature/Storage-pros-and-cons-Block-vs-file-vs-object-storage
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce # Only claimed by a single Node
+    # - ReadOnlyMany  # Read only by multiple Nodes
+    # - ReadWriteMany # Read Write by multiple Nodes
+
+  # Since minikube is only a dummy Node running in a VM environment, this PV can only be claimed once because the path is bound to this Node. Thus, ReadWriteOnce is the only choice here.
+  hostPath:
+    path: /data
+    type: DirectoryOrCreate
