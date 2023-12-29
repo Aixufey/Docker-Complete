@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: story
+  template:
+    metadata:
+      labels:
+        app: story
+    spec:
+      containers:
+        - name: story
+          image: aixufey/kub-example-data:latest
+          imagePullPolicy: Always
+          
+          env:
+            - name: STORY_FOLDER
+              # value: 'story'
+              valueFrom: # Environment file ConfigMap k/v instead of hardcoded value
+                configMapKeyRef: 
+                  name: data-env
+                  key: folder
+
+          # https://kubernetes.io/docs/concepts/storage/volumes/
+          volumeMounts:
+            - mountPath: /app/story # Mounth path to Container
+              name: story-volume
+      volumes:
+        - name: story-volume
+          # emptyDir: {} # Creates an empty dir when Pod starts - Containers can access, deleted when Pod is removed.
+
+          # hostPath shares a dir from host into Pods, similar to bind mount
+          # hostPath:
+          #   path: /data
+          #   type: DirectoryOrCreate # Use /data if exist or create
+
+          # Reaching out to claimed PV
+          persistentVolumeClaim:
+            claimName: host-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: story-service
+spec:
+  selector:
+    app: story
+  type: LoadBalancer
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 3000
