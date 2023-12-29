@@ -37,9 +37,12 @@ spec:
             containers:
                 - name: second-node
                   image: aixufey/kub-example
+                  # Always pull from latest tag
+                  imagePullPolicy: Always
+
                   # - name:
                   #       image: ... ...
-                 
+
                   # The path can be mapped to a route to check for health if Pod has been crashed
                   livenessProbe:
                       httpGet:

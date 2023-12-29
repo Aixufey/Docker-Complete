@@ -31,4 +31,6 @@ spec:
         spec:
             containers:
                 - name: second-node
-                  image: aixufey/kub-example
+                  image: aixufey/kub-example:v3
+                  # Will always pull the latest version from the specified tag or image digest after image building.
+                  imagePullPolicy: Always
