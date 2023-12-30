@@ -6,7 +6,7 @@
 # However, if auth is a separate Pod and not public facing, we use ClusterIP and the IP is assigned by k8s, so we retrieve it from env variable AUTH_SERVICE_SERVICE_HOST in Kubernetes World
 
 version: "3"
-services:
+services: # In Docker, IP addresses are assigned by Docker itself. So we can use the target service name as hostname.
   auth:
     build: ./auth-api
   users:

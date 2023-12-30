@@ -53,3 +53,7 @@
 
 - For Pod-Pod comm. we can use Service with ClusterIP and utilize generated environment var by Kubernetes, using this template with suffix, all caps with underscore e.g: `AUTH_SERVICE_SERVICE_HOST` The prefix is metadata name of the service and the suffix is a constant.
 - We could also manually retrieve the assigned IP after applying Service using `kubectl get services`
+
+### k8s DNS
+
+- For even simpler solution we could just use the service name and bind to a namespace, inside deployment.yml we could write `"auth_service.default"` where `default` is the default namespace, check more namespace `kubectl get namespace`

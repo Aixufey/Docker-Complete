@@ -21,4 +21,7 @@ spec:
           env:
             - name: AUTH_ADDRESS
               # value: localhost  # Communication to auth container IF within the same Pod!
-              value: "10.99.145.1"  # Since auth is in a different Pod, we assigned IP from ClusterIP by k8s.
+              # value: "10.99.145.1"  # Since auth is in a different Pod, we assigned IP from ClusterIP by k8s.
+
+              # Using k8s DNS with default namespace
+              value: "auth-service.default"
