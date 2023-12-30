@@ -3,6 +3,8 @@
 # users can reach to auth by using auth as hostname in env variable.
 # http://auth:80 assuming auth listens on port 80. Then Dockers DNS will resolve auth to the correct IP address in Docker network, not relevant to us.
 
+# However, if auth is a separate Pod and not public facing, we use ClusterIP and the IP is assigned by k8s, so we retrieve it from env variable AUTH_SERVICE_SERVICE_HOST in Kubernetes World
+
 version: "3"
 services:
   auth:
@@ -10,7 +12,8 @@ services:
   users:
     build: ./users-api
     environment:
-      - AUTH_ADDRESS: auth
+      AUTH_ADDRESS: auth                    # docker world                        
+      AUTH_SERVICE_SERVICE_HOST: auth       # k8s world
     ports: 
       - "8080:8080"
   tasks:

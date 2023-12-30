@@ -57,9 +57,16 @@ app.post('/login', async (req, res) => {
   const hashedPassword = password + '_hash';
 
   // This auth service is inside the same Pod as the users, but the IP is internal.
+  // const response = await axios.get(
+  //   `http://${process.env.AUTH_ADDRESS}/token/` + hashedPassword + '/' + password
+  // );
+
+  // This to reach out to the auth service in a different pod, ClusterIP is auth_service, assigned by k8s
   const response = await axios.get(
-    `http://${process.env.AUTH_ADDRESS}/token/` + hashedPassword + '/' + password
+    `http://${process.env.AUTH_SERVICE_SERVICE_HOST}/token/` + hashedPassword + '/' + password
   );
+
+  
   // const response = {
   //   status: 200, data: {
   //     token: 'abc'
