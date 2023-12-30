@@ -1,0 +1,16 @@
+# If Auth container is running in standalone Pod, it will not be public facing.
+# Thus, for Pod communication we use ClusterIP.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  selector:
+    app: auth
+  type: ClusterIP
+  # Kubernetes generates this ClusterIP and we retrieve it via environment process.env.NAME_SERVICE_HOST  The NAME is the metadata name i.e. AUTH_SERVICE_SERVICE_HOST it has to be all CAPS with SERVICE_HOST as suffix.
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 80
