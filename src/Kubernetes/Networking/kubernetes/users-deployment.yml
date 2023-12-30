@@ -9,6 +9,7 @@ spec:
   selector:
     matchLabels:
       app: users
+  # Containers
   template:
     metadata:
       labels:
@@ -16,4 +17,7 @@ spec:
     spec:
       containers:
         - name: users
-          image: aixufey/kub-networking-users
+          image: aixufey/kub-networking-users:latest
+
+        - name: auth
+          image: aixufey/kub-networking-auth:latest
