@@ -1,0 +1,15 @@
+# Service for auth API
+# Service does two main thing, gives stable IP between Pods & communication to outside via LoadBalancer
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  selector:
+    app: users
+  type: LoadBalancer
+  ports:
+    - protocol: "TCP"
+      port: 8080          # Listen to 8080
+      targetPort: 8080    # Forwarding to Container Port 8080

@@ -1,0 +1,27 @@
+# In Docker Compose, when specifying the name of a service, you can use that name as a hostname to connect to it from another service. This is a very useful feature, as it allows you to connect services together without having to know the IP address of the service you want to connect to.
+
+# users can reach to auth by using auth as hostname in env variable.
+# http://auth:80 assuming auth listens on port 80. Then Dockers DNS will resolve auth to the correct IP address in Docker network, not relevant to us.
+
+# However, if auth is a separate Pod and not public facing, we use ClusterIP and the IP is assigned by k8s, so we retrieve it from env variable AUTH_SERVICE_SERVICE_HOST in Kubernetes World
+
+version: "3"
+services: # In Docker, IP addresses are assigned by Docker itself. So we can use the target service name as hostname.
+  auth:
+    build: ./auth-api
+  users:
+    build: ./users-api
+    environment:
+      AUTH_ADDRESS: auth                    # docker world                        
+      AUTH_SERVICE_SERVICE_HOST: auth       # k8s world
+    ports: 
+      - "8080:8080"
+  tasks:
+    build: ./tasks-api
+    ports: 
+      - "8000:8000"
+    volumes:
+      - /app/tasks
+    environment:
+      TASKS_FOLDER: tasks
+    
