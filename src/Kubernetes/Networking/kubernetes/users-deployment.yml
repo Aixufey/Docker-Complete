@@ -18,6 +18,9 @@ spec:
       containers:
         - name: users
           image: aixufey/kub-networking-users:latest
+          env:
+            - name: AUTH_ADDRESS
+              value: localhost  # Communication to auth container
 
         - name: auth
           image: aixufey/kub-networking-auth:latest

@@ -1,3 +1,8 @@
+# In Docker Compose, when specifying the name of a service, you can use that name as a hostname to connect to it from another service. This is a very useful feature, as it allows you to connect services together without having to know the IP address of the service you want to connect to.
+
+# users can reach to auth by using auth as hostname in env variable.
+# http://auth:80 assuming auth listens on port 80. Then Dockers DNS will resolve auth to the correct IP address in Docker network, not relevant to us.
+
 version: "3"
 services:
   auth:
