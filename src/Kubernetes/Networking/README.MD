@@ -57,3 +57,33 @@
 ### k8s DNS
 
 - For even simpler solution we could just use the service name and bind to a namespace, inside deployment.yml we could write `"auth_service.default"` where `default` is the default namespace, check more namespace `kubectl get namespace`
+
+### Summary
+
+In most cases we don't want to have multiple containers per Pods.
+So in a multiple container context, we are working with 3 Pods, Users - Auth - Task. Not all Pod should be exposed to public, therefore Deployment & separate Service has to be configured accordingy.
+
+---
+
+```mermaid
+    graph RL
+    subgraph "Cluster"
+    subgraph "Pod X - Deployment 1"
+    B[Users API<br>users_service]
+    end
+    subgraph "Pod Y - Deployment 2"
+    A[Auth API<br>auth_service]
+    end
+    subgraph "Pod Z - Deployment 3"
+    C[Tasks API]
+    end
+    end
+    B ---> A
+    C ---> A
+    subgraph "Frontend"
+    X[Client - e.g Postman]
+    
+    end
+    X --> B
+    X --> C
+```
