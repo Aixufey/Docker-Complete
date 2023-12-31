@@ -24,4 +24,5 @@ services: # In Docker, IP addresses are assigned by Docker itself. So we can use
       - /app/tasks
     environment:
       TASKS_FOLDER: tasks
+      AUTH_ADDRESS: auth
     
