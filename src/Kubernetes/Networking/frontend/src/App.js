@@ -8,7 +8,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   const fetchTasks = useCallback(function () {
-    fetch('http://127.0.0.1:49384/tasks', {
+    fetch('/api/tasks', {
       headers: {
         'Authorization': 'Bearer abc'
       }
@@ -28,8 +28,9 @@ function App() {
     [fetchTasks]
   );
 
+  // Reverse-proxy setup to /api forward to "self" in task-service instead of hardcoding the IP/URL
   function addTaskHandler(task) {
-    fetch('http://127.0.0.1:49384/tasks', {
+    fetch('/api/tasks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
